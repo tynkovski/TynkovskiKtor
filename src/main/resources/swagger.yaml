@@ -1,0 +1,245 @@
+openapi: 3.0.3
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+info:
+  title: Tynkovski Backend
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: 127.0.0.1
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: login
+      description: login
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  example: login
+                password:
+                  type: string
+                  example: password
+            examples:
+              login:
+                value:
+                  login: tynkovski
+                  password: password
+      responses:
+        '200':
+          description: access and refresh token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: access token
+                  refresh_token:
+                    type: string
+                    description: refresh_token
+
+  /auth/refreshToken:
+    post:
+      tags:
+        - auth
+      summary: refreshToken
+      description: refreshToken
+      operationId: refreshtoken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+                  example: refresh_token
+            examples:
+              refreshToken:
+                value:
+                  refresh_token: refresh_token
+      responses:
+        '200':
+          description: new access token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: access token
+                  refresh_token:
+                    type: string
+                    description: refresh_token
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      summary: logout
+      description: logout
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+                  example: token
+            examples:
+              logout:
+                value:
+                  refresh_token: refresh_token
+      responses:
+        '200':
+          description: message wrapper
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: message
+  /user/register:
+    post:
+      tags:
+        - user
+      summary: register user
+      description: register
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  example: login
+                name:
+                  type: string
+                  example: name
+                password:
+                  type: string
+                  example: password
+            examples:
+              register user:
+                value:
+                  login: login
+                  name: name
+                  password: password
+      responses:
+        '200':
+          description: 'access and refresh token'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: access token
+                  refresh_token:
+                    type: string
+                    description: refresh_token
+  /user/get:
+    get:
+      tags:
+        - user
+      summary: get user
+      description: get user
+      operationId: getUser
+      responses:
+        '200':
+          description: 'user'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: message
+                  login:
+                    type: string
+                    description: message
+                  name:
+                    type: string
+                    description: message
+                  createdAt:
+                    type: integer
+                    description: message
+  /user/changePassword:
+    post:
+      tags:
+        - user
+      summary: change password
+      description: change password
+      operationId: changePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new_password:
+                  type: string
+                  example: new_password
+                old_password:
+                  type: string
+                  example: old_password
+            examples:
+              change password:
+                value:
+                  new_password: new_password
+                  old_password: old_password
+      responses:
+        '200':
+          description: 'message wrapper'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: message
+  /user/delete:
+    delete:
+      tags:
+        - user
+      summary: delete user
+      description: delete user
+      operationId: deleteUser
+      responses:
+        '200':
+          description: 'message wrapper'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: message
+tags:
+  - name: auth
+  - name: user
